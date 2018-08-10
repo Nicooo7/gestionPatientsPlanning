@@ -1,0 +1,18 @@
+{% load static %} 
+ 
+
+        
+        <ul class="collapsible">
+            <li>
+                <div class="collapsible-header">
+                    {{a}}
+                </div>     
+
+                <div class="collapsible-body">
+                    {% for b in liste %}
+                       <p>
+                        <a href="{{b}}/" class="waves-effect blue waves-light btn">{{b|capfirst}} </a></p>
+                    {% endfor %}
+                </div>
+            </li>
+        </ul>

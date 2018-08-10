@@ -1,0 +1,36 @@
+{% extends "scanner.html" %}
+{% load static %}
+
+{% block titre %} 
+Ajouter un Radiologue 
+{% endblock %}
+
+{% block contenu %}
+
+ <body class="grey lighten-2">
+
+        
+        <div class="titre blue"> <h3>AJOUTER UN RADIOLOGUE</h3> </div>
+        <div class="section"></div>
+        
+        <div class="row">
+          <div class="col s7">
+            <div class="card white ">
+            <div class="card-content black-text">
+              
+               <form action="ajouterRadiologue.html" method="post">
+            {% csrf_token %}
+            {{form.as_table}}
+                    <div class="col s12">
+                        <button class="btn waves-effect waves-light blue lighten-2" id="bouton_submit">Submit
+
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+               </form>
+            </div>
+          </div>
+        </div>
+    </div>
+     
+{% endblock contenu %}

@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Titre</title>
+
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        
+    </head>
+
+    <body class="white lighten-2">
+
+       {% include "html/barreNavigation.html" with titre=titrePage %}
+
+        <div class="section"></div> 
+    
+      
+     <!-- guide interactif -->  
+    {% if guide %} 
+    {% include "html/guide.html" with guide=guide %}
+    {% endif %}
+
+
+    {% block regions_anatomiques %}
+        {% for item in liste %}
+            {% include "html/collapsible_double.html" with a=item.region_anatomique liste=item.sous_rubriques titre=titre adresseImage=item.adresseImage path="Users/nicolas/Desktop/urgences/gestion_patient/static"%} 
+        {% endfor %}
+    {% endblock regions_anatomiques %}
+
+
+
+{% block script %}        
+<script>
+$(document).ready(function() {
+    M.AutoInit();
+    $('.optionnel').hide()
+    $('select').formSelect();
+    $('.tooltipped').tooltip();
+    $('#id_indication').css("height","100px");
+    $('#bouton_afficher').click(function(){
+            document.location.href="afficher_patient.html"; 
+                });
+  });
+</script>
+{% endblock script %} 
+
+
+{% block formulaire %}
+{% endblock formulaire %}
+
+{% block contenu %}
+{% endblock contenu %}
+
+{% block autre_script %}
+{% endblock autre_script %}
+
+{% block CRspecifique %}
+{% endblock CRspecifique %}
+
+
+
+
