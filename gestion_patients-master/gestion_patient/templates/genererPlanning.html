@@ -6,13 +6,22 @@
         <meta charset="utf-8" />
         <title>Titre</title>
 
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"> </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/fr.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
 
+        
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+
+        
+
+       
+        
 
         
     </head>
@@ -36,6 +45,8 @@
         {% endfor %}
     {% endblock regions_anatomiques %}
 
+
+{% block specifique %}
         
     <a href="/radio/ajouterRadiologue/" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">add</i></a>    
         
@@ -45,9 +56,9 @@
       <div class="collapsible-header"><i class="material-icons">filter_drama</i>Gestion des utilisateurs </div>
         
         {% for radiologue in radiologues %}
-         <div class="collapsible-body"><span> {{radiologue.prenom}}</span> 
+         <div class="collapsible-body"><a class="btn blue center" href="radio/modifierRadiologue?prenom={{radiologue.prenom}}"> {{radiologue.prenom}}</a> </div>
          {% endfor %}
-           </div>
+          
         
 
     </li>
@@ -58,32 +69,93 @@
     
   </ul>
 
+{% endblock specifique %}
+
+
+  
+  
+
 {% block script %}        
 <script>
-$(document).ready(function() {
-    M.AutoInit();
-    $('.optionnel').hide()
-    $('select').formSelect();
-    $('.tooltipped').tooltip();
-    $('#id_indication').css("height","100px");
-    $('#bouton_afficher').click(function(){
-            document.location.href="afficher_patient.html"; 
-                });
-  });
+
+
+
+$(document).ready(function(listeDesDates) {
+          
+
+            M.AutoInit();
+            $('.optionnel').hide()
+            $('select').formSelect();
+            $('.tooltipped').tooltip();
+            $('#id_indication').css("height","100px");
+            $('#calendar').fullCalendar({
+
+                  height: 300,
+                  defaultView: 'month',
+
+                  eventClick: function (calEvent, jsEvent, view) {
+                    $('#calendar').fullCalendar('removeEvents', calEvent.id);
+                  },
+
+                  dayClick: function(date, jsEvent, view) {
+                    var jour = date.format()
+                    var evenement = {
+                            title  : 'absence',
+                            start  : jour,
+                            eventColor: '#378006',
+                            id: jour,
+                          }    
+                    //$('#calendar').fullCalendar( "addEventSource", evenement) 
+
+
+                    
+                    var tousLesEvenements =  $('#calendar').fullCalendar( "clientEvents")
+                    var toutesLesDates = ""
+                    for(var i= 0; i < tousLesEvenements.length; i++)
+                    {
+                      toutesLesDates = toutesLesDates + tousLesEvenements[i].start.format()
+                    } 
+                    var cetteDate = evenement.start
+
+                    
+                    if (toutesLesDates.indexOf(cetteDate) == -1) {
+                        $('#calendar').fullCalendar( "renderEvent", evenement, true)
+                    }
+                  
+
+                    afficherListe() 
+                     }
+              
+
+            });
+
+               implementerLeCalendrier() 
+      
+    
+
+
+      $(".select-wrapper").change(function(){
+        jour = $("#jourSansTravail").val()
+        remiseZeroCalendrier()
+        $(".fc-day."+ jour).css('background-color','red')
+        afficherListe()
+      });
+
+      $("#ajouterVacFixe").click(function(){
+        vacation = $("#fixe").val() + " "+ $("#jourVacFixe").val() + " " + $("#momentVacFixe").val()
+        var ancien = $("#id_vacationFixe").val()
+        $("#id_vacationFixe").val(ancien + "xxx" + vacation)
+      });
+
+
+});
+
+
+
+
 </script>
+
 {% endblock script %} 
 
-
-{% block formulaire %}
-{% endblock formulaire %}
-
-{% block contenu %}
-{% endblock contenu %}
-
-{% block autre_script %}
-{% endblock autre_script %}
-
-{% block CRspecifique %}
-{% endblock CRspecifique %}
 
 

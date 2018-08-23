@@ -14,6 +14,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+        <link rel="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js">
+        <link rel="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/af.js"></script>
+
         
     </head>
 
@@ -49,6 +54,15 @@ $(document).ready(function() {
     $('#bouton_afficher').click(function(){
             document.location.href="afficher_patient.html"; 
                 });
+
+    $(function() {
+
+          // page is now ready, initialize the calendar...
+          $('#calendar').fullCalendar({
+            // put your options and callbacks here
+          })
+    });
+
   });
 </script>
 {% endblock script %} 

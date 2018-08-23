@@ -1,11 +1,11 @@
-{% extends "scanner.html" %}
+{% extends "genererPlanning.html" %}
 {% load static %}
 
 {% block titre %} 
 Ajouter un Radiologue 
 {% endblock %}
 
-{% block contenu %}
+{% block specifique %}
 
  <body class="grey lighten-2">
 
@@ -13,24 +13,56 @@ Ajouter un Radiologue
         <div class="titre blue"> <h3>AJOUTER UN RADIOLOGUE</h3> </div>
         <div class="section"></div>
         
-        <div class="row">
-          <div class="col s7">
-            <div class="card white ">
-            <div class="card-content black-text">
-              
-               <form action="ajouterRadiologue.html" method="post">
-            {% csrf_token %}
-            {{form.as_table}}
-                    <div class="col s12">
+          <div class="row">
+              <div class="col s6">
+               <form action="../../ajouterRadiologue/" method="post" >
+                {% csrf_token %}
+                 {{form.as_p}}
+
+
+                <div class="section"></div>
+                <div class="section"></div> 
+                
+               <div class="col s12">
                         <button class="btn waves-effect waves-light blue lighten-2" id="bouton_submit">Submit
 
                             <i class="material-icons right">send</i>
                         </button>
                     </div>
                </form>
-            </div>
-          </div>
+      </div>
+
+      <a href= "tableauDesAbsences" class="waves-effect waves-light btn blue"><i class="material-icons left ">beach_access</i>tableau des absences</a>
+
+
+     <div class="section"></div> 
+    <div class="section"></div>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card blue darken-3">
+        <div class="card-content white-text">
+              <span class="card-title">absences</span>
+              <div id='calendar'></div>
         </div>
     </div>
+  </div>
+</div>
+       
+
+
+
+   
+
+     <div class="section"></div> 
+    <div class="section"></div> 
+
+
+    <div class="waves-effect waves-light btn blue validationCalendrier"><i class="material-icons left ">arrow_forward</i>afficher les dates</div>
+
+    <div class="listeDesJours" liste=""> </div>
+
+
+
      
-{% endblock contenu %}
+{% endblock specifique %}

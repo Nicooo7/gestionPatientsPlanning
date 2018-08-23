@@ -6,7 +6,6 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 #from django.core.exceptions import ObjectDoesNotExist
 
-
 from .models import *
 from django.contrib.auth.models import* 
 from django.contrib.auth import *
@@ -24,6 +23,7 @@ from unidecode import unidecode
 from django.utils.safestring import mark_safe
 from.forms import DemandeForm, RadiologueForm
 from django.utils import timezone
+import csv
 
 
 
@@ -33,32 +33,100 @@ app_name = 'gestion_patient'
 
 def ajouterRadiologue(request):
     if request.method == 'POST':
-        form = RadiologueForm(request.POST)
-        if form.is_valid(): 
-            entree = form.save()
-            entree.heure = timezone.now()
-            entree.save()
-            print("radiolgoue sauvegardée")
-        else:
-            print("formulaire non valide")
-        
-        form = RadiologueForm()
-        return render(request, 'ajouterRadiologue.html', {'form': form})
+            form = RadiologueForm(request.POST)
+            if form.is_valid():
+                form.save()    
+                return redirect('../genererPlanning')
 
     else:
         form = RadiologueForm()
         return render(request, 'ajouterRadiologue.html', {'form': form})
     
-   
+  
+def tableauDesAbsences(request):
+
+    path = "/Users/nicolas/Desktop/gestionPatientPlanning/master/gestion_patients-master/gestion_patient/static/gestion_patients/tableauDesAbsences/Mensuel-Mois\ et\ année.csv"
+
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=path'
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    return response
+
+
+    
+
 
 def modifierRadiologue(request):
-    return render(request, 'modifierRadiologue.html', {})
+
+    
+
+    def traiterLesAbscences(form, radiologue):
+        indisponibilites = form.cleaned_data["indisponibilites"]
+        dates = indisponibilites.split("xxx")
+        for date in dates:
+            print(date)
+        absencesEnregistrees = Absence.objects.filter(radiologue = radiologue)
+        listeAnciennesDates = []
+        for absence in absencesEnregistrees:
+            d = absence.date
+            listeAnciennesDates.append(d)
+            if d not in dates:
+                absence.delete()
+        for nouvelleDate in dates:
+            if nouvelleDate not in listeAnciennesDates:
+                a = Absence(radiologue = radiologue, date=nouvelleDate)
+                a.save()
+
+    def genererLesDatesPourLeCalendrier(radiologue):
+        absencesEnregistrees = Absence.objects.filter(radiologue = radiologue)
+        listeAnciennesDates = []
+        for absence in absencesEnregistrees:
+            d = absence.date
+            print(d)
+            listeAnciennesDates.append(d)
+        print(listeAnciennesDates)
+        return listeAnciennesDates
+
+
+    prenom = request.GET["prenom"]
+    print(prenom)
+    radiologue = Radiologue.objects.get(prenom=prenom)    
+
+
+    if request.method == 'POST':
+        form = RadiologueForm(request.POST, instance=radiologue)
+        if form.is_valid():
+            form.save() 
+            traiterLesAbscences(form,radiologue)
+            print("element modifié") 
+            return redirect('../genererPlanning')
+        else:
+            print("formulaire non valide")
+
+    else:
+        form = RadiologueForm(instance=radiologue)
+        dates = genererLesDatesPourLeCalendrier(radiologue)
+        dates = mark_safe(dates)
+        return render(request, 'modifierRadiologue.html', {"radiologue": radiologue, "form":form, "dates":dates})
+
+
+
+
+
+
+
 
 def genererPlanning(request):
    #generer la liste des radiologues
     
-    
-    """radiologues = Radiologue.objects.all()
+    """
+    radiologues = Radiologue.objects.all()
     for r in radiologues:
         r.delete()
         
@@ -66,8 +134,10 @@ def genererPlanning(request):
     Nicolas.save()
     Paul = Radiologue(prenom="Paul")
     Paul.save()
-    
-    
+    """
+    """l = Radiologue.objects.filter(prenom="jerome")
+    for e in l:
+        e.delete()
     """
     
     

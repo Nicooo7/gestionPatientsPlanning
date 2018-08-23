@@ -20,6 +20,7 @@ class Radiologue(models.Model):
     
     prenom=models.CharField(max_length=30, null=True)
     nom=models.CharField(max_length=30,null=True)
+    indisponibilites = models.CharField(max_length=1000, null=True, )
     statut=models.CharField(
         max_length=30,
         choices=listeDesStatuts,
@@ -30,9 +31,15 @@ class Radiologue(models.Model):
         choices=listeDesTempsDeTravail,
         null=True
     )
-    indisponibilites = models.CharField(max_length=1000, null=True)
+    vacationFixe =  models.CharField(max_length=30, null=True)
+    jourSansTravail =  models.CharField(max_length=30, null=True) 
     
+class Absence(models.Model):
     
+    radiologue=models.ForeignKey(Radiologue, on_delete=models.CASCADE)
+    date = models.CharField(max_length=20, null=True)
+    
+
 
 
 class Demande(models.Model):
