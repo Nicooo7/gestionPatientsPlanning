@@ -40,13 +40,18 @@ Modifier un Radiologue
                         <td>
                            <select class="browser-default blue" id="jourSansTravail">
                             <option class="jourChome" value="aucune" >aucun</option>
-                            <option class="jourChome" value="fc-mon">lundi</option>
-                            <option class="jourChome" value="fc-tue">mardi</option>
-                            <option class="jourChome" value="fc-wed">mercredi</option>
-                            <option class="jourChome" value="fc-thu">jeudi</option>
-                            <option class="jourChome" value="fc-fri">vendredi</option>
+                            <option class="jourChome" value="lundi">lundi</option>
+                            <option class="jourChome" value="mardi">mardi</option>
+                            <option class="jourChome" value="mercredi">mercredi</option>
+                            <option class="jourChome" value="jeudi">jeudi</option>
+                            <option class="jourChome" value="vendredi">vendredi</option>
                           </select>
-                         <a class="btn-floating btn-large waves-effect waves-light blue" id="ajouterJourChome"><i class="material-icons">add</i></a>
+                         <a class="btn-floating btn-large waves-effect waves-light blue" onclick="{
+                          var choix = $('#jourSansTravail').val();
+                          var ancien = $('#id_jourSansTravail').val()
+                          $('#id_jourSansTravail').val(ancien + 'xxx' + choix);
+                        }" 
+                       id="ajouterJourChome"><i class="material-icons">add</i></a>
 
                       </td>
                       <td>

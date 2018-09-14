@@ -26,7 +26,7 @@ class RadiologueForm(ModelForm):
         'nom':forms.TextInput(attrs={'cols': 20, 'rows': 20, "class": "grey lighten-2"}),
        'statut':forms.Select(attrs={'cols': 20, 'rows': 20, "class": "browser-default grey lighten-2"}),
        "tempsDeTravail" : forms.Select(attrs={'cols': 80, 'rows': 20, "class": "browser-default grey lighten-2" }),
-       'indisponibilites': forms.HiddenInput(),
+       #'indisponibilites': forms.HiddenInput(),
         'vacationFixe': forms.TextInput(attrs={'cols': 20, 'rows': 20, "class": "grey lighten-2"}),
         'jourSansTravail':  forms.TextInput(attrs={'cols': 20, 'rows': 20, "class": "grey lighten-2"}),  
         }

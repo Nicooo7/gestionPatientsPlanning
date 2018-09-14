@@ -69,7 +69,7 @@ urlpatterns = [
     
     
     #planning
-    url(r'genererPlanning$', views.genererPlanning, name = 'genererPlanning'),
+    url(r'genererPlanning', views.genererPlanning, name = 'genererPlanning'),
     url(r'ajouterRadiologue', views.ajouterRadiologue, name = 'ajouterRadiologue'),
     url(r'modifierRadiologue', views.modifierRadiologue, name = 'modifierRadiologue'),
     url(r'tableauDesAbsences$', views.tableauDesAbsences, name='tableauDesAbsences'),

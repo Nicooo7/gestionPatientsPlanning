@@ -23,7 +23,10 @@ from unidecode import unidecode
 from django.utils.safestring import mark_safe
 from.forms import DemandeForm, RadiologueForm
 from django.utils import timezone
+from.generationPlanning import *
+
 import csv
+
 
 
 
@@ -35,8 +38,10 @@ def ajouterRadiologue(request):
     if request.method == 'POST':
             form = RadiologueForm(request.POST)
             if form.is_valid():
-                form.save()    
+                form.save()  
                 return redirect('../genererPlanning')
+            else:
+                print("formulaire non valide")
 
     else:
         form = RadiologueForm()
@@ -139,11 +144,97 @@ def genererPlanning(request):
     for e in l:
         e.delete()
     """
-    
-    
+
+    class Jour:
+        
+        liste= []
+
+        def __init__(self, jourSemaine, numeroJour, mois, numeroSemaine):
+            self.jourSemaine= jourSemaine
+            self.numeroJour = numeroJour
+            self.numeroSemaine = numeroSemaine
+            self.mois = mois
+            Jour.liste.append(self)
+
+
+
+
+    def genererLesSemaines():
+        #réinitialiser la liste des jours
+        Jour.liste=[]
+
+        listeDesJoursDeLaSemaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
+        listeDesMois = [("janvier",31),("fevrier",28),("mars",31),("avril",30),("mai",31),("juin",30), ("juillet",31),
+        ("aout",31), ("septembre",30),("octobre",31), ("novembre",30),("decembre",31)]
+        
+        #jourReference= [("lundi",3,"septembre") semaine 36]
+        numSemaine = 36
+        numMois = 9
+        numJour = 3
+       
+        for x in range (0, 11):
+            numSemaine = numSemaine + 1
+            for i in range (0,7):
+                jourSemaine= listeDesJoursDeLaSemaine[i]
+                numeroSemaine = numSemaine
+                numeroJour = numJour
+                moisTest = listeDesMois[numMois-1]
+                if numeroJour <  int(moisTest[1]):
+                    mois = moisTest[0]
+                else:
+                    mois = listeDesMois[numMois + 1]
+                    moisTest = mois
+
+                Jour(jourSemaine, numeroJour, mois, numeroSemaine)
+                numJour = numJour +1
+
+        for jour in Jour.liste:
+            print( str(jour.jourSemaine) + " "+  str(jour.numeroJour) + " "+ str(jour.mois) + " "+ str(jour.numeroSemaine) )
+
+    genererLesSemaines()        
+
+
+    class Vacation:
+
+        liste=[]
+
+        def __init__(self, responsable, jour, moment, machine):
+            self.vacation = mark_safe(jour + " " + moment+ " " + machine)
+            self.responsable = responsable
+            Vacation.liste.append(self)
+
+    Vacation(
+            responsable= "Nicolas",
+            jour= "lundi",
+            moment="matin",
+            machine="scanner",
+            )
+
+
+    vacations = Vacation.liste
     radiologues = Radiologue.objects.all()
+
+
+
+
+
+    if request.GET:
+        resultat = generationDuPlanning(radiologues)
+        lignesVacations= resultat[0]
+        lignesStatistiques = resultat[1]
+        
+
+    else:
+        lignesVacations="vide"
+        lignesStatistiques="vide"
+        
     
-    return render(request, 'genererPlanning.html', {"radiologues":radiologues})
+    return render(request, 'genererPlanning.html', {
+                                    "radiologues":radiologues, 
+                                    "vacations":vacations, 
+                                    "lignesVacations":lignesVacations, 
+                                    "lignesStatistiques":lignesStatistiques, 
+                                    })
 
 
 

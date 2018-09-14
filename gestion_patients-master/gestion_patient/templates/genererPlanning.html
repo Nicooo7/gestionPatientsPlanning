@@ -69,6 +69,160 @@
     
   </ul>
 
+
+
+    <div class="section"></div>
+    <div class="section"></div>
+
+
+ <a class="waves-effect waves-light btn blue" onclick="document.location.href='genererPlanning?action=generer'"><i class="material-icons left">web</i>Generer un planning</a>
+    
+    <div class="section"></div>
+    <div class="section"></div>
+
+   
+
+
+    <div class="row">
+          <div class="col s8">
+            <div class="card white ">
+                <div class="card-content black-text grey lighten-2">
+                    <span> <h2 class= "blue center" >Planning</h2></span>
+                                <div class="section"> </div>
+
+                                <table>
+                                 <thead>
+                                    <tr>
+                                 <th>moment</th>
+                                 <th>vacation</th>
+                                 <th>personne</th>
+                                    </tr>
+                                 </thead> 
+
+                                 <TBODY>
+
+                                {% for v in lignesVacations %}
+
+                                 {% if "lundi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" yellow"> LUNDI MATIN </td>             
+                                    <td class=" yellow"> {{v.intitule}} </td>
+                                    <td class=" yellow "> {{v.responsable}}<td>
+                                </tr>
+                                {% endif %}
+                                 {% if "lundi aprem" in v.moment %}
+                                 <tr>
+                                    <td class=" yellow darken-3"> LUNDI APREM </td>             
+                                    <td class=" yellow darken-3"> {{v.intitule}} </td>
+                                    <td class=" yellow darken-3 "> {{v.responsable}}<td>
+                                        </tr>
+                                    
+                                {% endif %}
+                                 {% if "mardi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" green"> MARDI MATIN </td>             
+                                    <td class=" green"> {{v.intitule}} </td>
+                                    <td class=" green "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "mardi aprem" in v.moment %}
+                                 <tr>
+                                    <td class=" green darken-3"> MARDI APREM </td>             
+                                    <td class=" green darken-3"> {{v.intitule}} </td>
+                                    <td class=" green darken-3 "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "mercredi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" blue"> MERCREDI MATIN </td>             
+                                    <td class=" blue"> {{v.intitule}} </td>
+                                    <td class=" blue "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "mercredi aprem" in v.moment %}
+                                 <tr>
+                                    <td class=" blue darken-3"> MERCREDI APREM </td>             
+                                    <td class=" blue darken-3"> {{v.intitule}} </td>
+                                    <td class=" blue darken-3 "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "jeudi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" purple"> JEUDI MATIN </td>             
+                                    <td class=" purple"> {{v.intitule}} </td>
+                                    <td class=" purple"> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "jeudi aprem" in v.moment %}
+                                 <tr>
+                                    <td class=" purple darken-3"> JEUDI APREM </td>             
+                                    <td class=" purple darken-3"> {{v.intitule}} </td>
+                                    <td class=" purple darken-3 "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "vendredi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" teal"> VENDREDI MATIN </td>             
+                                    <td class=" teal"> {{v.intitule}} </td>
+                                    <td class=" teal "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "vendredi aprem" in v.moment %}
+                                 <tr>
+                                    <td class=" teal darken-3"> VENDREDI APREM </td>             
+                                    <td class=" teal darken-3"> {{v.intitule}} </td>
+                                    <td class=" teal darken-3 "> {{v.responsable}}<td>
+                                        </tr>
+                                {% endif %}
+                                 {% if "samedi matin" in v.moment %}
+                                 <tr>
+                                    <td class=" pink"> SAMEDI MATIN </td>             
+                                    <td class=" pink"> {{v.intitule}} </td>
+                                    <td class=" pink "> {{v.responsable}}<td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </table>
+                     </div> 
+                </div>
+            </div>
+
+
+        <div class="col s4">
+            <div class="card white ">
+                <div class="card-content black-text grey lighten-2">
+                    <span> <h2 class= "blue center" >statistiques</h2></span>
+                            </TBODY>
+                                <table>
+                                     <thead>
+                                            <tr>
+                                         <th>nom</th>
+                                         <th>temps cumulé</th>
+                                         <th>écart</th>
+                                         <th>homogénéité</th>
+                                         <th>nombre de vacations</th>
+                                            </tr>
+                                     </thead> 
+                                    <TBODY>   
+                                        {% for s in lignesStatistiques %}
+                                            <tr>
+                                            <th> {{s.nom}} </td>    
+                                            <td> {{s.tempsCumule}} </td>
+                                            <td> {{s.ecart}}</td>
+                                            <td> {{s.homogeneite}}</td>
+                                            <td> {{s.nombreDeVacation}}</td>
+                                                </tr>
+                                        {% endfor %}
+                                    </TBODY>
+                                </table>
+            
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
 {% endblock specifique %}
 
 

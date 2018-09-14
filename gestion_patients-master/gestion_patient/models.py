@@ -20,7 +20,7 @@ class Radiologue(models.Model):
     
     prenom=models.CharField(max_length=30, null=True)
     nom=models.CharField(max_length=30,null=True)
-    indisponibilites = models.CharField(max_length=1000, null=True, )
+    indisponibilites = models.CharField(max_length=1000, null=True )
     statut=models.CharField(
         max_length=30,
         choices=listeDesStatuts,
